@@ -3,7 +3,26 @@ import "./App.css";
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 
+const Activities = selected => {
+  const dataActivities = ["cycling", "running", "swimming", "walking"];
+  const selectedIndex = 1;
+  return (
+    <div className="col s12 l5">
+      {dataActivities.map((a, i) => {
+        const active = i === selectedIndex ? "active" : null;
+        return (
+          <button key={i} className={`activity ${active}`} data-activity={a}>
+            {a}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
 function App() {
+  const selectedIndex = 0;
+
   return (
     <Fragment>
       <div className="nav z-depth-0">
@@ -18,20 +37,7 @@ function App() {
 
       <div className="container section">
         <div className="row">
-          <div className="col s12 l5">
-            <button className="activity active" data-activity="cycling">
-              Cycling
-            </button>
-            <button className="activity" data-activity="running">
-              Running
-            </button>
-            <button className="activity" data-activity="swimming">
-              Swimming
-            </button>
-            <button className="activity" data-activity="walking">
-              Walking
-            </button>
-          </div>
+          <Activities />
           <div className="col s12 l6 push-11">
             <div className="canvas" />
           </div>
