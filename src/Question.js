@@ -1,5 +1,6 @@
 import React from "react";
 import { useSignUpForm } from "./CustomHooks";
+import firebase from "./firebase";
 
 export const Question = ({ state }) => {
   const display = () => console.log(inputs);

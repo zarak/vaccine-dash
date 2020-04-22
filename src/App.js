@@ -1,6 +1,5 @@
 import React, { useReducer, Fragment } from "react";
 import reducer from "./reducer";
-import firebase from "./firebase";
 import "./App.css";
 // import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";

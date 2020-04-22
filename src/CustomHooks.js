@@ -1,13 +1,20 @@
 import React, { useState } from "react";
+import db from "./firebase";
 
 export const useSignUpForm = callback => {
   const [inputs, setInputs] = useState({});
 
   const handleSubmit = e => {
-    console.log(e);
     if (e) {
       e.preventDefault();
-      console.log("e", e);
+      const distance = parseInt(inputs.distance);
+      if (distance) {
+        db.collection("activities").add({
+          distance
+          // activity
+        });
+      }
+      console.log("d", distance);
       // const distance = parseInt()
     }
     callback();
