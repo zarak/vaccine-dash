@@ -1,7 +1,7 @@
 import React, { useReducer, Fragment } from "react";
 import reducer from "./reducer";
 import "./App.css";
-import M from "materialize-css";
+// import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 import { Question } from "./Question";
 import { Activities } from "./Activities";
