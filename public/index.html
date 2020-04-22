@@ -33,17 +33,33 @@
     <title>The Dojo</title>
   </head>
   <body class="grey darken-4">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+
+    <script>
+     // Your web app's Firebase configuration
+     var firebaseConfig = {
+         apiKey: "AIzaSyBHEk0grqGbbtG2y8dmgBuLK1yMTCGVIxE",
+         authDomain: "udemy-d3-firebase-7b6b9.firebaseapp.com",
+         databaseURL: "https://udemy-d3-firebase-7b6b9.firebaseio.com",
+         projectId: "udemy-d3-firebase-7b6b9",
+         storageBucket: "udemy-d3-firebase-7b6b9.appspot.com",
+         messagingSenderId: "18753953254",
+         appId: "1:18753953254:web:bab7d717bcc278da030a27",
+         measurementId: "G-CYSL3MMV5D"
+     };
+     // Initialize Firebase
+     firebase.initializeApp(firebaseConfig);
+     const db = firebase.firestore();
+
+    </script>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

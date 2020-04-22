@@ -3,64 +3,11 @@ import reducer from "./reducer";
 import "./App.css";
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
+import { Question } from "./Question";
+import { Activities } from "./Activities";
 
 const initialState = {
   selectedIndex: 0
-};
-
-const Question = ({ state }) => {
-  const { selectedIndex } = state;
-  const dataActivities = ["cycling", "running", "swimming", "walking"];
-  const activity = dataActivities[selectedIndex];
-
-  return (
-    <div className="row">
-      <form className="col m6 push-m3">
-        <p className="flow-text grey-text center">
-          How much <span>{activity}</span> have you done today?
-        </p>
-        <input
-          className="grey-text"
-          name=""
-          type="text"
-          value=""
-          id="cycling"
-          placeholder="Distance in m"
-        />
-        <p className="center pink-text error text-lighten-1">Error</p>
-      </form>
-    </div>
-  );
-};
-
-const Activities = ({ state, dispatch }) => {
-  const { selectedIndex } = state;
-  const dataActivities = ["cycling", "running", "swimming", "walking"];
-
-  const changeActivity = selectedIndex => {
-    dispatch({
-      type: "SET_ACTIVITY",
-      payload: selectedIndex
-    });
-  };
-
-  return (
-    <div className="col s12 l5">
-      {dataActivities.map((a, i) => {
-        const active = i === selectedIndex ? "active" : null;
-        return (
-          <button
-            key={i}
-            className={`activity ${active}`}
-            data-activity={a}
-            onClick={() => changeActivity(i)}
-          >
-            {a}
-          </button>
-        );
-      })}
-    </div>
-  );
 };
 
 function App() {
