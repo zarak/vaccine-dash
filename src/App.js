@@ -12,7 +12,6 @@ const initialState = {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log("f", firebase);
 
   return (
     <Fragment>
