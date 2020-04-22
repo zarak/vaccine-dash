@@ -5,8 +5,32 @@ import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 
 const initialState = {
-  selectedIndex: 0,
-  activity: "cycling"
+  selectedIndex: 0
+};
+
+const Question = ({ state }) => {
+  const { selectedIndex } = state;
+  const dataActivities = ["cycling", "running", "swimming", "walking"];
+  const activity = dataActivities[selectedIndex];
+
+  return (
+    <div className="row">
+      <form className="col m6 push-m3">
+        <p className="flow-text grey-text center">
+          How much <span>{activity}</span> have you done today?
+        </p>
+        <input
+          className="grey-text"
+          name=""
+          type="text"
+          value=""
+          id="cycling"
+          placeholder="Distance in m"
+        />
+        <p className="center pink-text error text-lighten-1">Error</p>
+      </form>
+    </div>
+  );
 };
 
 const Activities = ({ state, dispatch }) => {
@@ -41,9 +65,6 @@ const Activities = ({ state, dispatch }) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { selectedIndex } = state;
-  const dataActivities = ["cycling", "running", "swimming", "walking"];
-  const activity = dataActivities[selectedIndex];
 
   return (
     <Fragment>
@@ -64,24 +85,9 @@ function App() {
             <div className="canvas" />
           </div>
         </div>
-
-        <div className="row">
-          <form className="col m6 push-m3">
-            <p className="flow-text grey-text center">
-              How much <span>{activity}</span> have you done today?
-            </p>
-            <input
-              className="grey-text"
-              name=""
-              type="text"
-              value=""
-              id="cycling"
-              placeholder="Distance in m"
-            />
-            <p className="center pink-text error text-lighten-1">Error</p>
-          </form>
-        </div>
       </div>
+
+      <Question state={state} />
     </Fragment>
   );
 }
