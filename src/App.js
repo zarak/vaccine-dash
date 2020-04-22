@@ -1,17 +1,36 @@
-import React, { Fragment } from "react";
+import React, { useReducer, Fragment } from "react";
+import reducer from "./reducer";
 import "./App.css";
 import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 
+const initialState = {
+  selectedIndex: 0
+};
+
 const Activities = selected => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { selectedIndex } = state;
+
+  const changeActivity = selectedIndex => {
+    dispatch({
+      type: "SET_ACTIVITY",
+      payload: selectedIndex
+    });
+  };
+
   const dataActivities = ["cycling", "running", "swimming", "walking"];
-  const selectedIndex = 1;
   return (
     <div className="col s12 l5">
       {dataActivities.map((a, i) => {
         const active = i === selectedIndex ? "active" : null;
         return (
-          <button key={i} className={`activity ${active}`} data-activity={a}>
+          <button
+            key={i}
+            className={`activity ${active}`}
+            data-activity={a}
+            onClick={() => changeActivity(i)}
+          >
             {a}
           </button>
         );
