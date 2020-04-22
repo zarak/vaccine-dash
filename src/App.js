@@ -1,5 +1,6 @@
 import React, { useReducer, Fragment } from "react";
 import reducer from "./reducer";
+import firebase from "./firebase";
 import "./App.css";
 // import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
@@ -12,6 +13,7 @@ const initialState = {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log("f", firebase);
 
   return (
     <Fragment>
