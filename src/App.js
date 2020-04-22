@@ -5,12 +5,13 @@ import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
 
 const initialState = {
-  selectedIndex: 0
+  selectedIndex: 0,
+  activity: "cycling"
 };
 
-const Activities = selected => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const Activities = ({ state, dispatch }) => {
   const { selectedIndex } = state;
+  const dataActivities = ["cycling", "running", "swimming", "walking"];
 
   const changeActivity = selectedIndex => {
     dispatch({
@@ -19,7 +20,6 @@ const Activities = selected => {
     });
   };
 
-  const dataActivities = ["cycling", "running", "swimming", "walking"];
   return (
     <div className="col s12 l5">
       {dataActivities.map((a, i) => {
@@ -40,7 +40,10 @@ const Activities = selected => {
 };
 
 function App() {
-  const selectedIndex = 0;
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { selectedIndex } = state;
+  const dataActivities = ["cycling", "running", "swimming", "walking"];
+  const activity = dataActivities[selectedIndex];
 
   return (
     <Fragment>
@@ -56,7 +59,7 @@ function App() {
 
       <div className="container section">
         <div className="row">
-          <Activities />
+          <Activities state={state} dispatch={dispatch} />
           <div className="col s12 l6 push-11">
             <div className="canvas" />
           </div>
@@ -65,7 +68,7 @@ function App() {
         <div className="row">
           <form className="col m6 push-m3">
             <p className="flow-text grey-text center">
-              How much <span>cycling</span> have you done today?
+              How much <span>{activity}</span> have you done today?
             </p>
             <input
               className="grey-text"
