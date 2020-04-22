@@ -1,15 +1,11 @@
 import React from "react";
+import { useSignUpForm } from "./CustomHooks";
 
 export const Question = ({ state }) => {
+  const { inputs, handleInputChange, handleSubmit } = useSignUpForm();
   const { selectedIndex } = state;
   const dataActivities = ["cycling", "running", "swimming", "walking"];
   const activity = dataActivities[selectedIndex];
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log("e", e);
-    // const distance = parseInt()
-  };
 
   return (
     <div className="row">
@@ -21,10 +17,11 @@ export const Question = ({ state }) => {
           className="grey-text"
           name=""
           type="text"
-          value=""
+          value={inputs.activity}
           id={activity}
           placeholder="Distance in m"
           onSubmit={handleSubmit}
+          onChange={handleInputChange}
         />
         <p className="center pink-text error text-lighten-1">Error</p>
       </form>
