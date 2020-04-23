@@ -34,7 +34,7 @@ function App() {
         </div>
       </div>
 
-      <Question state={state} />
+      <Question state={state} dispatch={dispatch} />
     </Fragment>
   );
 }
