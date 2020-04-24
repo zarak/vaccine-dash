@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import reducer from "./reducer";
 
-const initialState = {
+export const initialState = {
   selectedIndex: 0
 };
 
@@ -11,7 +11,7 @@ export const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-export const changeActivityAction = activity => ({
+export const changeActivityAction = selectedIndex => ({
   type: "SET_ACTIVITY",
-  payload: activity
+  payload: selectedIndex
 });
