@@ -20,6 +20,7 @@ export const Activities = () => {
         return (
           <button
             key={i}
+            data-testid={active}
             className={`activity ${active}`}
             data-activity={a}
             onClick={() => changeActivity(i)}
