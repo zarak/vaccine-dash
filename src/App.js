@@ -3,8 +3,8 @@ import reducer from "./reducer";
 import "./App.css";
 // import M from "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
-import { Question } from "./Question";
-import { Activities } from "./Activities";
+import { Question } from "./components/Question";
+import { Activities } from "./components/Activities";
 
 const initialState = {
   selectedIndex: 0

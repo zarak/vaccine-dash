@@ -1,9 +1,10 @@
-import React from "react";
-import { useSignUpForm } from "./CustomHooks";
-import firebase from "./firebase";
+import React, { useState } from "react";
+import { useSignUpForm } from "../CustomHooks";
+import firebase from "../firebase";
 
 export const Question = ({ state }) => {
   const display = () => console.log(inputs);
+  // const [distance, setDistance] = useState("");
   const { inputs, handleInputChange, handleSubmit } = useSignUpForm(display);
   const { selectedIndex } = state;
   const dataActivities = ["cycling", "running", "swimming", "walking"];
