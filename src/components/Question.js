@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import firebase from "../firebase";
+import db from "../firebase";
 
 export const Question = () => {
   const [distance, setDistance] = useState("");
+  const [error, setError] = useState("Error");
   const selectedIndex = useSelector(state => state.selectedIndex);
   const dataActivities = ["cycling", "running", "swimming", "walking"];
   const activity = dataActivities[selectedIndex];
@@ -14,8 +15,20 @@ export const Question = () => {
 
   const onSubmit = event => {
     event.preventDefault();
-    console.log(event);
-    setDistance("");
+    const distanceInt = parseInt(distance);
+    console.log(distanceInt);
+    if (distance) {
+      db.collection("activities")
+        .add({
+          distance,
+          activity,
+          date: new Date().toString()
+        })
+        .then(() => {
+          setDistance("");
+          setError("");
+        });
+    }
   };
 
   return (
@@ -33,7 +46,7 @@ export const Question = () => {
           placeholder="Distance in m"
           onChange={onChange}
         />
-        <p className="center pink-text error text-lighten-1">Error</p>
+        <p className="center pink-text error text-lighten-1">{error}</p>
       </form>
     </div>
   );
