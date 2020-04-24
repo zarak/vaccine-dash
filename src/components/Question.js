@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import firebase from "../firebase";
 
-export const Question = ({ state }) => {
+export const Question = () => {
   const [distance, setDistance] = useState("");
   const selectedIndex = useSelector(state => state.selectedIndex);
   const dataActivities = ["cycling", "running", "swimming", "walking"];
