@@ -4,7 +4,7 @@ import db from "../firebase";
 
 export const Question = () => {
   const [distance, setDistance] = useState("");
-  const [error, setError] = useState("Error");
+  const [error, setError] = useState("");
   const selectedIndex = useSelector(state => state.selectedIndex);
   const dataActivities = ["cycling", "running", "swimming", "walking"];
   const activity = dataActivities[selectedIndex];
@@ -17,7 +17,7 @@ export const Question = () => {
     event.preventDefault();
     const distanceInt = parseInt(distance);
     console.log(distanceInt);
-    if (distance) {
+    if (distanceInt || !isNaN(distanceInt)) {
       db.collection("activities")
         .add({
           distance,
@@ -25,10 +25,12 @@ export const Question = () => {
           date: new Date().toString()
         })
         .then(() => {
-          setDistance("");
           setError("");
         });
+    } else {
+      setError("Please enter a valid distance");
     }
+    setDistance("");
   };
 
   return (
