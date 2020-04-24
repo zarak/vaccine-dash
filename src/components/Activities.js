@@ -1,8 +1,10 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-export const Activities = ({ state, dispatch }) => {
-  const { selectedIndex } = state;
+export const Activities = () => {
+  const selectedIndex = useSelector(state => state.selectedIndex);
   const dataActivities = ["cycling", "running", "swimming", "walking"];
+  const dispatch = useDispatch();
 
   const changeActivity = selectedIndex => {
     dispatch({

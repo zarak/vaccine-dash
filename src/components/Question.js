@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useSignUpForm } from "../CustomHooks";
+import { useSelector } from "react-redux";
 import firebase from "../firebase";
 
 export const Question = ({ state }) => {
   const [distance, setDistance] = useState("");
-  const { selectedIndex } = state;
+  const selectedIndex = useSelector(state => state.selectedIndex);
   const dataActivities = ["cycling", "running", "swimming", "walking"];
   const activity = dataActivities[selectedIndex];
 
