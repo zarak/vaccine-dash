@@ -5,6 +5,7 @@ import "./App.css";
 import "materialize-css/dist/css/materialize.min.css";
 import { Question } from "./components/Question";
 import { Activities } from "./components/Activities";
+import { Canvas } from "./components/Canvas";
 import { Provider } from "react-redux";
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
           <div className="row">
             <Activities />
             <div className="col s12 l6 push-11">
-              <div className="canvas" />
+              {/* <div className="canvas" /> */}
+              <Canvas />
             </div>
           </div>
         </div>
