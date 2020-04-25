@@ -6,7 +6,14 @@ export const Canvas = () => {
   const margin = { top: 40, right: 20, bottom: 50, left: 100 };
   const graphWidth = 560 - margin.left - margin.right;
   const graphHeight = 400 - margin.top - margin.bottom;
-  const update = data => console.log(data);
+
+  // scales
+  const x = d3.scaleTime().range([0, graphWidth]);
+  const y = d3.scaleLinear().range([graphHeight, 0]);
+
+  const update = data => {};
+
+  // axes groups
 
   const data = [];
   db.collection("activities").onSnapshot(res => {
@@ -41,7 +48,11 @@ export const Canvas = () => {
         height={graphHeight}
         transform={`translate(${margin.left}, ${margin.top})`}
       >
-        Test
+        <xAxisGroup
+          className="x-axis"
+          transform={`translate(0, ${graphHeight})`}
+        />
+        <yAxisGroup className="y-axis" />
       </g>
     </svg>
   );
