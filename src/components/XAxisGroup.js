@@ -10,5 +10,7 @@ export const XAxisGroup = ({ x, graphHeight }) => {
       .tickPadding(18);
     xAxisG.call(xAxis);
   }, [graphHeight, x]);
-  return <g transform={`translate(0,${graphHeight})`} ref={ref} />;
+  return (
+    <g className="x-axis" transform={`translate(0,${graphHeight})`} ref={ref} />
+  );
 };

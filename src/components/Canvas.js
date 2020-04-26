@@ -48,8 +48,8 @@ export const Canvas = () => {
         height={graphHeight}
         transform={`translate(${margin.left}, ${margin.top})`}
       >
-        <XAxisGroup x={x} graphHeight={graphHeight} className="x-axis" />
-        <YAxisGroup y={y} graphWidth={graphWidth} className="y-axis" />
+        <XAxisGroup x={x} graphHeight={graphHeight} />
+        <YAxisGroup y={y} graphWidth={graphWidth} />
       </g>
     </svg>
   );

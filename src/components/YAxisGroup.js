@@ -10,5 +10,5 @@ export const YAxisGroup = ({ y, graphWidth }) => {
       .tickPadding(18);
     yAxisG.call(yAxis);
   }, [graphWidth, y]);
-  return <g ref={ref} />;
+  return <g className="y-axis" ref={ref} />;
 };
