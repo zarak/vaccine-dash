@@ -5,9 +5,7 @@ export const XAxisGroup = ({ x, graphHeight }) => {
   const ref = useRef();
   useEffect(() => {
     const xAxisG = select(ref.current);
-    const xAxis = axisBottom(x)
-      .tickSize(-graphHeight)
-      .tickPadding(18);
+    const xAxis = axisBottom(x).ticks(4);
     xAxisG.call(xAxis);
   }, [graphHeight, x]);
   return (

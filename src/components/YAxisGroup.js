@@ -6,6 +6,7 @@ export const YAxisGroup = ({ y, graphWidth }) => {
   useEffect(() => {
     const yAxisG = select(ref.current);
     const yAxis = axisLeft(y)
+      .ticks(4)
       .tickSize(-graphWidth)
       .tickPadding(18);
     yAxisG.call(yAxis);

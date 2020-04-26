@@ -7,8 +7,10 @@ import { Question } from "./components/Question";
 import { Activities } from "./components/Activities";
 import { Canvas } from "./components/Canvas";
 import { Provider } from "react-redux";
+import { useData } from "./useData";
 
 function App() {
+  const data = useData();
   return (
     <Provider store={store}>
       <Fragment>
@@ -27,7 +29,7 @@ function App() {
             <Activities />
             <div className="col s12 l6 push-11">
               {/* <div className="canvas" /> */}
-              <Canvas />
+              <Canvas data={data} />
             </div>
           </div>
         </div>
