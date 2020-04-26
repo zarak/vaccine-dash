@@ -1,6 +1,8 @@
 import React from "react";
 import db from "../firebase";
-import d3 from "d3";
+import * as d3 from "d3";
+import { XAxisGroup } from "./XAxisGroup";
+import { YAxisGroup } from "./YAxisGroup";
 
 export const Canvas = () => {
   const margin = { top: 40, right: 20, bottom: 50, left: 100 };
@@ -12,8 +14,6 @@ export const Canvas = () => {
   const y = d3.scaleLinear().range([graphHeight, 0]);
 
   const update = data => {};
-
-  // axes groups
 
   const data = [];
   db.collection("activities").onSnapshot(res => {
@@ -48,11 +48,8 @@ export const Canvas = () => {
         height={graphHeight}
         transform={`translate(${margin.left}, ${margin.top})`}
       >
-        <xAxisGroup
-          className="x-axis"
-          transform={`translate(0, ${graphHeight})`}
-        />
-        <yAxisGroup className="y-axis" />
+        <XAxisGroup x={x} graphHeight={graphHeight} className="x-axis" />
+        <YAxisGroup y={y} graphWidth={graphWidth} className="y-axis" />
       </g>
     </svg>
   );
