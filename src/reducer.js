@@ -5,6 +5,11 @@ const reducer = (state, action) => {
         ...state,
         selectedIndex: action.payload
       };
+    case "SET_AXES":
+      return {
+        ...state,
+        axes: action.payload
+      };
     default:
       return state;
   }

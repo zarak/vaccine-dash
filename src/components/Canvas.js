@@ -1,31 +1,31 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import db from "../firebase";
 import * as d3 from "d3";
 import { XAxisGroup } from "./XAxisGroup";
 import { YAxisGroup } from "./YAxisGroup";
 
-const initialAxes = {
-  x: undefined,
-  y: undefined
-};
-
 export const Canvas = () => {
   let [data, setData] = useState([]);
-  let [axes, setAxes] = useState(initialAxes);
+  let axes = useSelector(state => state.axes);
+  const dispatch = useDispatch();
+
+  const changeAxes = axes => {
+    console.log("axes", axes);
+    dispatch({
+      type: "SET_AXES",
+      payload: axes
+    });
+  };
 
   const xValue = d => new Date(d.date);
   const yValue = d => d.distance;
   const margin = { top: 40, right: 20, bottom: 50, left: 100 };
   const graphWidth = 560 - margin.left - margin.right;
   const graphHeight = 400 - margin.top - margin.bottom;
-
   const x = d3.scaleTime().range([0, graphWidth]);
 
-  const y = useMemo(() => d3.scaleLinear().range([graphHeight, 0]), [
-    data,
-    yValue
-  ]);
-  axes = { x, y };
+  const y = d3.scaleLinear().range([graphHeight, 0]);
 
   useEffect(() => {
     console.log("d", data);
@@ -38,7 +38,6 @@ export const Canvas = () => {
             console.log("item added");
             data.push(doc);
             setData(data);
-            setAxes(axes);
             break;
           case "modified":
             const index = data.findIndex(item => item.id === doc.id);
@@ -63,6 +62,7 @@ export const Canvas = () => {
   const update = data => {
     x.domain(d3.extent(data, xValue));
     y.domain([0, d3.max(data, yValue)]);
+    changeAxes({ x, y });
     console.log("x ticks", x.ticks());
     console.log("y ticks", y.ticks());
   };
