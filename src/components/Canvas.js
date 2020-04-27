@@ -60,7 +60,6 @@ export const Canvas = () => {
     console.log("y ticks", y.ticks());
   };
 
-  update(data);
   return (
     <svg
       width={graphWidth + margin.left + margin.right}
