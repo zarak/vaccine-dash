@@ -20,7 +20,7 @@ export const Question = () => {
     if (distanceInt || !isNaN(distanceInt)) {
       db.collection("activities")
         .add({
-          distance,
+          distance: distanceInt,
           activity,
           date: new Date().toString()
         })
