@@ -3,10 +3,29 @@ import db from "../firebase";
 import * as d3 from "d3";
 import { XAxisGroup } from "./XAxisGroup";
 import { YAxisGroup } from "./YAxisGroup";
-import { useData } from "../useData";
+
+const initialAxes = {
+  x: undefined,
+  y: undefined
+};
 
 export const Canvas = () => {
   let [data, setData] = useState([]);
+  let [axes, setAxes] = useState(initialAxes);
+
+  const xValue = d => new Date(d.date);
+  const yValue = d => d.distance;
+  const margin = { top: 40, right: 20, bottom: 50, left: 100 };
+  const graphWidth = 560 - margin.left - margin.right;
+  const graphHeight = 400 - margin.top - margin.bottom;
+
+  const x = d3.scaleTime().range([0, graphWidth]);
+
+  const y = useMemo(() => d3.scaleLinear().range([graphHeight, 0]), [
+    data,
+    yValue
+  ]);
+  axes = { x, y };
 
   useEffect(() => {
     console.log("d", data);
@@ -19,6 +38,7 @@ export const Canvas = () => {
             console.log("item added");
             data.push(doc);
             setData(data);
+            setAxes(axes);
             break;
           case "modified":
             const index = data.findIndex(item => item.id === doc.id);
@@ -31,27 +51,14 @@ export const Canvas = () => {
             break;
         }
       });
-      console.log("TEST", data.map(d => d.id));
+      console.log("TEST", data.map(d => d.distance));
       update(data);
+
+      console.log("x", x.ticks());
+      // x.domain(d3.extent(data, xValue));
+      // y.domain([0, d3.max(data, yValue)]);
     });
-    console.log("djfk", data);
   }, []);
-
-  const xValue = d => new Date(d.date);
-  const yValue = d => d.distance;
-  const margin = { top: 40, right: 20, bottom: 50, left: 100 };
-  const graphWidth = 560 - margin.left - margin.right;
-  const graphHeight = 400 - margin.top - margin.bottom;
-
-  const x = useMemo(() => d3.scaleTime().range([0, graphWidth]), [
-    data,
-    xValue
-  ]);
-
-  const y = useMemo(() => d3.scaleLinear().range([graphHeight, 0]), [
-    data,
-    yValue
-  ]);
 
   const update = data => {
     x.domain(d3.extent(data, xValue));
