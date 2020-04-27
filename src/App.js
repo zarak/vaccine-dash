@@ -7,7 +7,6 @@ import { Question } from "./components/Question";
 import { Activities } from "./components/Activities";
 import { Canvas } from "./components/Canvas";
 import { Provider } from "react-redux";
-import { useData } from "./useData";
 
 function App() {
   return (

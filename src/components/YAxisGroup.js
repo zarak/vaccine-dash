@@ -1,11 +1,20 @@
 import React, { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { select, axisLeft } from "d3";
 
 export const YAxisGroup = ({ graphWidth }) => {
   const axes = useSelector(state => state.axes);
-  const dataActivities = ["cycling", "running", "swimming", "walking"];
-  const { y } = axes;
+  const dispatch = useDispatch();
+
+  const changeAxes = axes => {
+    console.log("axes", axes);
+    dispatch({
+      type: "SET_AXES",
+      payload: axes
+    });
+  };
+
+  const { x, y } = axes;
   const ref = useRef();
   useEffect(() => {
     if (y) {
@@ -16,6 +25,7 @@ export const YAxisGroup = ({ graphWidth }) => {
       // .tickPadding(18);
       yAxisG.call(yAxis);
     }
+    changeAxes({ x, y });
   }, [graphWidth, y]);
   return <g className="y-axis" ref={ref} />;
 };
