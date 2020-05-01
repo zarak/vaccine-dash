@@ -2,12 +2,11 @@ import React, { Fragment } from "react";
 import { store } from "./redux";
 import "./App.css";
 // import M from "materialize-css";
-import "materialize-css/dist/css/materialize.min.css";
 import { Question } from "./components/Question";
 import { Activities } from "./components/Activities";
 import { Canvas } from "./components/Canvas";
 import { Provider } from "react-redux";
-import { useData } from "./useData";
+import data from "./trialData";
 
 function App() {
   return (
@@ -28,7 +27,7 @@ function App() {
             <Activities />
             <div className="col s12 l6 push-11">
               {/* <div className="canvas" /> */}
-              <Canvas />
+              <Canvas data={data} />
             </div>
           </div>
         </div>

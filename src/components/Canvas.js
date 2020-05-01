@@ -1,85 +1,83 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { Fragment, useMemo, useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import db from "../firebase";
-import * as d3 from "d3";
-import { XAxisGroup } from "./XAxisGroup";
-import { YAxisGroup } from "./YAxisGroup";
+import { axisBottom, select, min, max, scaleBand, scaleTime } from "d3";
+import { binMonth, getDate, getStartDate } from "../utils";
 
-export const Canvas = () => {
-  let [data, setData] = useState([]);
-  let axes = useSelector(state => state.axes);
-  const dispatch = useDispatch();
+export const Canvas = ({ data }) => {
+  console.log(data);
+  const svgRef = useRef();
+  const wrapperRef = useRef();
+  const dimensions = { height: 200, width: 300 };
+  const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+  let xScale, yScale;
 
-  const changeAxes = axes => {
-    console.log("axes", axes);
-    dispatch({
-      type: "SET_AXES",
-      payload: axes
-    });
-  };
-
-  const xValue = d => new Date(d.date);
-  const yValue = d => d.distance;
-  const margin = { top: 40, right: 20, bottom: 50, left: 100 };
-  const graphWidth = 560 - margin.left - margin.right;
-  const graphHeight = 400 - margin.top - margin.bottom;
-  const x = d3.scaleTime().range([0, graphWidth]);
-
-  const y = d3.scaleLinear().range([graphHeight, 0]);
-
+  // will be called initially and on every data change
   useEffect(() => {
-    console.log("d", data);
-    const unsubscribe = db.collection("activities").onSnapshot(res => {
-      res.docChanges().forEach(change => {
-        const doc = { ...change.doc.data(), id: change.doc.id };
+    const svg = select(svgRef.current);
+    if (!dimensions) return;
 
-        switch (change.type) {
-          case "added":
-            console.log("item added");
-            data.push(doc);
-            setData(data);
-            break;
-          case "modified":
-            const index = data.findIndex(item => item.id === doc.id);
-            data[index] = doc;
-            break;
-          case "removed":
-            data = data.filter(item => item.id !== doc.id);
-            break;
-          default:
-            break;
-        }
-      });
-      console.log("TEST", data.map(d => d.distance));
-      update(data);
+    const minDate = min(data, study =>
+      getDate(study["Actual Study Start Date"])
+    );
+    const maxDate = max(data, study =>
+      getDate(study["Estimated Study Completion Date"])
+    );
 
-      console.log("x", x.ticks());
-      // x.domain(d3.extent(data, xValue));
-      // y.domain([0, d3.max(data, yValue)]);
-    });
-  }, []);
+    xScale = scaleTime()
+      .domain([new Date("1 January 2020"), new Date(2022, 6, 1)])
+      .range([0, dimensions.width]);
 
-  const update = data => {
-    x.domain(d3.extent(data, xValue));
-    y.domain([0, d3.max(data, yValue)]);
-    changeAxes({ x, y });
-    console.log("x ticks", x.ticks());
-    console.log("y ticks", y.ticks());
-  };
+    yScale = scaleBand()
+      .domain([...Array(data.length).keys()])
+      .range([dimensions.height, 0])
+      .padding(0.05);
+
+    svg
+      .selectAll(".study")
+      .data(data)
+      .join("rect")
+      .attr("class", "study")
+      .attr("fill", "navy")
+      .attr("x", study => getStartDate(study, xScale))
+      .attr("y", (study, i) => yScale(i))
+      .attr("width", 0)
+      .attr("height", 0)
+      .on("mouseenter", (value, index) => {
+        console.log(value["Developer"]);
+        svg
+          .selectAll(".tooltip")
+          .data([value])
+          .join("text")
+          .attr("class", "tooltip")
+          .text(value["Developer"])
+          .attr("x", 0)
+          .attr("y", 250)
+          .transition()
+          .attr("opacity", 1);
+      })
+      .on("mouseleave", (value, index) => svg.selectAll(".tooltip").remove())
+      .transition()
+      .delay(800)
+      .attr("height", yScale.bandwidth())
+      .attr("width", study =>
+        xScale(getDate(study["Estimated Study Completion Date"]))
+      );
+
+    const xAxis = axisBottom(xScale)
+      .ticks(10)
+      .tickFormat(binMonth);
+
+    svg
+      .select(".x-axis")
+      .style("transform", `translateY(${dimensions.height}px)`)
+      .call(xAxis);
+  }, [data, dimensions]);
 
   return (
-    <svg
-      width={graphWidth + margin.left + margin.right}
-      height={graphHeight + margin.top + margin.bottom}
-    >
-      <g
-        width={graphWidth}
-        height={graphHeight}
-        transform={`translate(${margin.left}, ${margin.top})`}
-      >
-        <XAxisGroup x={x} graphHeight={graphHeight} />
-        <YAxisGroup y={y} graphWidth={graphWidth} />
-      </g>
-    </svg>
+    <Fragment>
+      <svg width={dimensions.width} height={dimensions.height} ref={svgRef}>
+        <g className="x-axis" />
+      </svg>
+    </Fragment>
   );
 };
